@@ -42,7 +42,8 @@ Route::middleware('auth')->group(function () {
 
     // Route::middleware('role:1')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
-    // users or customer
+    
+    // Staf
     Route::get('/staf', Staf::class)->name('staf');
     Route::get('/staf/add', AddStaf::class)->name('staf.add');
     Route::get('/staf/edit/{stafId}', EditStaf::class)->name('staf.edit');
