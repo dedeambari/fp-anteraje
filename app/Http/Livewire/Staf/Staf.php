@@ -90,7 +90,7 @@ class Staf extends Component
     }
 
 
-    // data customer
+    // data staf
     public function dataStaf()
     {
         if ($this->status_deactive_staf === 1) {
@@ -116,8 +116,8 @@ class Staf extends Component
     // file name
     private function fileNameExport($file)
     {
-        return $this->status_deactive_staf === null ? "report-customer-all.{$file}" : (
-            $this->status_deactive_staf === 1 ? "report-customer-active.{$file}" : "report-customer-inactive.{$file}"
+        return $this->status_deactive_staf === null ? "report-staf-all.{$file}" : (
+            $this->status_deactive_staf === 1 ? "report-staf-active.{$file}" : "report-staf-inactive.{$file}"
         );
     }
 
@@ -140,8 +140,8 @@ class Staf extends Component
 
         $name_pdf = $this->fileNameExport('pdf');
 
-        $title = $this->status_deactive_staf === null ? 'Report Customer All' : (
-            $this->status_deactive_staf === 1 ? 'Report Customer Active' : 'Report Customer Inactive'
+        $title = $this->status_deactive_staf === null ? 'Report staf All' : (
+            $this->status_deactive_staf === 1 ? 'Report staf Active' : 'Report staf Inactive'
         );
 
         $mpdf = new Mpdf();
