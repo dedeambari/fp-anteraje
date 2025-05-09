@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use Mpdf\Mpdf;
+use function GuzzleHttp\Promise\all;
 
 class Staf extends Component
 {
@@ -123,7 +124,19 @@ class Staf extends Component
     // export pdf
     public function exportPdf()
     {
-        $data = $this->dataStaf();
+        if ($this->status_deactive_staf === 1) {
+            $staf = \App\Models\Staf::all();
+        } elseif ($this->status_deactive_staf === 0) {
+            $staf = \App\Models\Staf::onlyTrashed()->get();
+        } else {
+            $staf = \App\Models\Staf::withTrashed()->get();
+        }
+        $data = $staf->map(function ($staf) {
+            $staf->profile = $staf->profile ??= "default.jpeg";
+            $staf->created_at_human = $staf->created_at->diffForHumans();
+            $staf->status_deactive_staf = $staf->deleted_at === null ? 1 : 0;
+            return $staf;
+        });
 
         $name_pdf = $this->fileNameExport('pdf');
 
