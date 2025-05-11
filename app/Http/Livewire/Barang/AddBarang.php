@@ -4,16 +4,23 @@ namespace App\Http\Livewire\Barang;
 
 use App\Models\Barang;
 use App\Models\KategoriBarang;
+use App\Models\Payment;
 use App\Models\PemrosessanBarang;
 use App\Models\PenerimaBarang;
 use App\Models\PengirimBarang;
 use App\Models\Staf;
 use Livewire\Component;
 
+/**
+ * Summary of AddBarang
+ * @author Firstname Lastname
+ */
 class AddBarang extends Component
 {
-
+    // current page
     public $currentPage = 1;
+
+    // visible wire variable input
     public
     $namaBarang,
     $volumeBarang,
@@ -27,11 +34,15 @@ class AddBarang extends Component
     $stafPengantaran,
     $noHpPenerima,
     $estimasiPengantaran,
-    $keterangan;
+    $keterangan,
+    $pembayaranYangBayar,
+    $statusBayaran;
 
+    // kategori barang
     public $kategoriTerpilih;
 
     protected $listeners = ['selectKategori', 'storeBarang'];
+
 
 
     public $page = [
@@ -46,6 +57,9 @@ class AddBarang extends Component
         ],
         4 => [
             'title' => 'Staf pengantaran',
+        ],
+        5 => [
+            'title' => 'Information & Pembayaran',
         ]
     ];
 
@@ -70,11 +84,15 @@ class AddBarang extends Component
             ],
             4 => [
                 "stafPengantaran" => ["required"],
+                "estimasiPengantaran" => ["required"],
+                "keterangan" => ["nullable", "max:255", "min:3", "regex:/^[A-Za-z0-9\s.,?!]+$/"],
+            ],
+            5 => [
+                "pembayaranYangBayar" => ["required"],
+                "statusBayaran" => ["required"],
             ]
         ];
     }
-
-
 
     public function nextStepPage()
     {
@@ -92,6 +110,16 @@ class AddBarang extends Component
         $this->kategoriTerpilih = KategoriBarang::find($value);
     }
 
+    public function totalTarif()
+    {
+        return $this->kategoriTerpilih->hitungTarif($this->volumeBarang, $this->beratBarang);
+    }
+
+    public function namaStaf()
+    {
+        return Staf::find($this->stafPengantaran)->nama;
+    }
+
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName, $this->getValidationRules()[$this->currentPage]);
@@ -102,6 +130,7 @@ class AddBarang extends Component
         $rules = collect($this->getValidationRules())->collapse()->toArray();
         $this->validate($rules);
 
+        // Simpan pengirim
         $pengirim = PengirimBarang::firstOrCreate(
             [
                 'nama' => $this->namaPengirim,
@@ -116,9 +145,7 @@ class AddBarang extends Component
             ['alamat' => $this->alamatPenerima]
         );
 
-        $kategori = KategoriBarang::find($this->type_kategori);
-        $tarif = $kategori->hitungTarif($this->volumeBarang, $this->beratBarang);
-
+        // Simpan barang
         $barang = Barang::create(
             [
                 "nama_barang" => $this->namaBarang,
@@ -130,17 +157,26 @@ class AddBarang extends Component
                 "id_kategori" => $this->type_kategori,
                 "id_pengirim" => $pengirim->id,
                 "id_penerima" => $penerima->id,
-                "total_tarif" => $tarif,
+                "total_tarif" => $this->totalTarif(),
             ]);
 
+        // update staf
         $stafPengantaran = Staf::find($this->stafPengantaran);
         $stafPengantaran->qty_task -= 1;
         $stafPengantaran->save();
 
+        // Simpan pemrosesan
         PemrosessanBarang::create([
             "id_barang" => $barang->id,
             "id_staf" => $stafPengantaran->id,
             "status_proses" => "diproses",
+        ]);
+
+        // Simpan pembayaran
+        Payment::create([
+            "id_barang" => $barang->id,
+            "pays" => $this->pembayaranYangBayar,
+            "status_bayar" => $this->statusBayaran,
         ]);
 
         session()->flash('message', "Barang $this->namaBarang created successfully!");

@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->decimal('volume', 8, 3)->nullable();
             $table->dateTime('estimasi_waktu')->nullable();
             $table->string('nomor_resi');
+            
             $table->unsignedBigInteger('id_kategori')->nullable();
             $table->foreign('id_kategori')
                 ->references('id_kategori')->on('kategori_barangs')->onDelete('set null');

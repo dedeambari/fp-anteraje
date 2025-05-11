@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromView;
 
 class StafExport implements FromView

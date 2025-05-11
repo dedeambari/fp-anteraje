@@ -57,6 +57,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/barang', action: Barang::class)->name('barang');
     Route::get('/barang/add', AddBarang::class)->name('barang.add');
     Route::get('/barang/edit/{barangId}', EditBarang::class)->name('barang.edit');
-    Route::get('/barang/detail/{id}', DetailBarang::class)->name('barang.detail');
+    Route::get('/barang/detail/{barangId}', DetailBarang::class)->name('barang.detail');
 
 });

@@ -7,8 +7,6 @@
         @include('report.staf.table', $data)
     </div>
     <footer class='footer'>
-        <p style='text-align: center; margin-bottom: 5px'>
-            Copyright &copy; {{ config('app.name') }} {{ date('Y') }}
-        </p>
+        <p style='text-align: center; margin-bottom: 5px'>Copyright &copy; Laundry Version Laravel</p>
     </footer>
 @endsection

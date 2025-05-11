@@ -20,4 +20,19 @@ class Barang extends Model
     {
         return $this->hasOne(PemrosessanBarang::class, 'id_barang', 'id');
     }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'id_barang', 'id');
+    }
+
+    public function pengirim()
+    {
+        return $this->belongsTo(PengirimBarang::class, 'id_pengirim', 'id');
+    }
+
+    public function penerima()
+    {
+        return $this->belongsTo(PenerimaBarang::class, 'id_penerima', 'id');
+    }
 }

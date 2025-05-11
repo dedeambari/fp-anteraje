@@ -17,7 +17,7 @@ class StafFactory extends Factory
             'username' => $this->faker->unique()->userName(),
             'no_hp' => $this->faker->phoneNumber(),
             'password' => Hash::make('password'), // default password
-            'qty_task' => $this->faker->randomNumber(2),
+            'qty_task' => $this->faker->randomNumber(1),
             'profile' => null,
             'transportasi' => $this->faker->randomElement(['motor', 'mobil']),
             'created_at' => now(),

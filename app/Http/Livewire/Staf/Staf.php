@@ -52,27 +52,28 @@ class Staf extends Component
     // delete permanen staf
     public function deletedStaf($stafId)
     {
-        $staf = \App\Models\Staf::withTrashed()->find($stafId);
-        $pemrosessanBarang = \App\Models\PemrosessanBarang::where('id_staf', $stafId)->get();
+        $staf = \App\Models\Staf::with(['pemrosesanBarangs'])->withTrashed()->find($stafId);
 
-        $masihBerlangsung = $pemrosessanBarang->contains(function ($item) {
-            return $item->status_proses !== 'diterima';
-        });
+        if (!$staf) {
+            session()->flash('error', 'Staf tidak ditemukan!');
+            return;
+        }
+
+        // Cek jika masih ada proses yang belum "diterima"
+        $masihBerlangsung = $staf->pemrosesanBarangs->contains(fn($item) => $item->status_proses !== 'diterima');
 
         if ($masihBerlangsung) {
             session()->flash('error', 'Staf tidak bisa dihapus karena masih ada proses barang yang belum selesai.');
             return;
         }
-        foreach ($pemrosessanBarang as $pemrosessan) {
-            $pemrosessan->delete();
-        }
 
-        if ($staf) {
-            $staf->forceDelete();
-            session()->flash('message', "Staf berhasil dihapus permanen!");
-        } else {
-            session()->flash('error', 'Staf tidak ditemukan!');
-        }
+        // Hapus semua pemrosesan barang jika sudah selesai
+        $staf->pemrosesanBarangs->each->delete();
+
+        // Hapus staf secara permanen
+        $staf->forceDelete();
+
+        session()->flash('message', "Staf berhasil dihapus permanen!");
     }
 
 
