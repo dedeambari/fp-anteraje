@@ -3,10 +3,10 @@ Kelompok 12
 </h1>
 <ul>
 <li>Dede Ambari : 23416255201024</li>
-<li>muhammad _ 23416255201004</li>
-<li>Rakha alfian _ 23416255201106</li>
-<li>Muhamad Dandhi Yahzaki _ 23416255201127</li>
-<li>Aam abdurahman _ 23416255201052</li>
+<li>muhammad : 23416255201004</li>
+<li>Rakha alfian : 23416255201106</li>
+<li>Muhamad Dandhi Yahzaki : 23416255201127</li>
+<li>Aam abdurahman : 23416255201052</li>
 </ul>
 
 
