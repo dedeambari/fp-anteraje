@@ -2,12 +2,9 @@
 
 namespace App\Http\Livewire\Staf;
 
-use App\Exports\StafExport;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Maatwebsite\Excel\Facades\Excel;
-use Mpdf\Mpdf;
-use function GuzzleHttp\Promise\all;
 
 class Staf extends Component
 {
@@ -15,9 +12,22 @@ class Staf extends Component
 
     // set status deactive
     public $status_deactive_staf;
+    // set date
+    public $dateFrom, $dateTo;
+
+    public $fileNameExport;
+
+    public $otp;
 
     // listener event
-    protected $listeners = ['activedStaf', 'deactiveStaf', 'deletedStaf', 'filterStatus', 'exportPdf', 'exportExcel'];
+    protected $listeners = [
+        'activedStaf',
+        'deactiveStaf',
+        'deletedStaf',
+        'filterStatus',
+        'filterByDateRange',
+        'generateResetOtp'
+    ];
 
     // mount
     public function mount()
@@ -76,8 +86,6 @@ class Staf extends Component
         session()->flash('message', "Staf berhasil dihapus permanen!");
     }
 
-
-
     // filtering status
     public function filterStatus($status)
     {
@@ -90,20 +98,29 @@ class Staf extends Component
         }
     }
 
+    // filtering date
+    public function filterByDateRange($data)
+    {
+        $this->dateFrom = $data['dateFrom'];
+        $this->dateTo = $data['dateTo'];
+    }
 
     // data staf
     public function dataStaf()
     {
         if ($this->status_deactive_staf === 1) {
-            $staf = \App\Models\Staf::paginate(5);
+            $this->fileNameExport = "report-staf-active-" . date('d-m-Y');
+            $staf = \App\Models\Staf::orderByDesc('created_at')->paginate(5);
         } elseif ($this->status_deactive_staf === 0) {
-            $staf = \App\Models\Staf::onlyTrashed()->paginate(5);
+            $this->fileNameExport = "report-staf-inactive-" . date('d-m-Y');
+            $staf = \App\Models\Staf::orderByDesc('created_at')->onlyTrashed()->paginate(5);
+        } elseif ($this->dateFrom && $this->dateTo) {
+            $this->fileNameExport = "report-staf-date-{$this->dateFrom}-{$this->dateTo}-" . date('d-m-Y');
+            $staf = \App\Models\Staf::whereBetween('created_at', [$this->dateFrom, $this->dateTo])->orderByDesc('created_at')->paginate(5);
         } else {
-            $staf = \App\Models\Staf::withTrashed()->paginate(5);
+            $this->fileNameExport = "report-staf-all-" . date('d-m-Y');
+            $staf = \App\Models\Staf::orderByDesc('created_at')->withTrashed()->paginate(5);
         }
-
-        // $staf->appends(request()->query());
-        // $staf->
 
         return $staf->through(function ($staf) {
             $staf->profile = $staf->profile ??= "default.jpeg";
@@ -113,60 +130,41 @@ class Staf extends Component
         });
     }
 
-
-    // file name
-    private function fileNameExport($file)
+    // generate reset otp
+    public function generateResetOtp($id)
     {
-        return $this->status_deactive_staf === null ? "report-staf-all.{$file}" : (
-            $this->status_deactive_staf === 1 ? "report-staf-active.{$file}" : "report-staf-inactive.{$file}"
-        );
-    }
+        $staf = \App\Models\Staf::findOrFail($id);
 
-    // export pdf
-    public function exportPdf()
-    {
-        if ($this->status_deactive_staf === 1) {
-            $staf = \App\Models\Staf::all();
-        } elseif ($this->status_deactive_staf === 0) {
-            $staf = \App\Models\Staf::onlyTrashed()->get();
-        } else {
-            $staf = \App\Models\Staf::withTrashed()->get();
+        // Cek apakah ada OTP dan masih aktif
+        if ($staf->reset_otp && $staf->reset_otp_expired_at && now()->lessThan($staf->reset_otp_expired_at)) {
+            session()->flash('message', 'OTP masih aktif. Silakan gunakan OTP yang sudah ada.');
+            $this->emit("valueOtp", [
+                "id" => $staf->id,
+                "otp" => $staf->reset_otp,
+                'expired_at' => Carbon::parse($staf->reset_otp_expired_at)->toIso8601String(),
+                'nama' => $staf->nama
+            ]);
+            return;
         }
-        $data = $staf->map(function ($staf) {
-            $staf->profile = $staf->profile ??= "default.jpeg";
-            $staf->created_at_human = $staf->created_at->diffForHumans();
-            $staf->status_deactive_staf = $staf->deleted_at === null ? 1 : 0;
-            return $staf;
-        });
 
-        $name_pdf = $this->fileNameExport('pdf');
+        // Buat OTP baru
+        $otp = random_int(100000, 999999);
 
-        $title = $this->status_deactive_staf === null ? 'Report staf All' : (
-            $this->status_deactive_staf === 1 ? 'Report staf Active' : 'Report staf Inactive'
-        );
+        $staf->update([
+            'reset_otp' => $otp,
+            'reset_otp_expired_at' => now()->addMinutes(10),
+        ]);
 
-        $mpdf = new Mpdf();
-        $mpdf->WriteHTML(view('report.staf.pdf.content', [
-            'data' => $data,
-            'title' => $title
-        ]));
-        return response()->stream(
-            function () use ($mpdf, $name_pdf) {
-                $mpdf->Output($name_pdf, 'I');
-            },
-            200,
-            [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => "inline; filename=$name_pdf",
-            ]
-        );
+        session()->flash('message', 'OTP berhasil dibuat dan berlaku 10 menit.');
+
+        $this->emit("valueOtp", [
+            "id" => $staf->id,
+            "otp" => $otp,
+            'expired_at' => Carbon::now()->addMinutes(10)->toIso8601String(),
+            'nama' => $staf->nama
+        ]);
     }
 
-    // export excel
-    public function exportExcel()
-    {
-        return Excel::download(new StafExport($this->status_deactive_staf), $this->fileNameExport('xlsx'));
-    }
 
     // render
     public function render()

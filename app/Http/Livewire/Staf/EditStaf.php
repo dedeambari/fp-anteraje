@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Livewire\Staf;
 
 use App\Models\Staf;
@@ -8,18 +7,11 @@ use Livewire\Component;
 
 class EditStaf extends Component
 {
-    // model name
-    public $nama;
-    // model noHp
-    public $noHp;
-    // model transportasi
-    public $transportasi;
-    // model qty_task
-    public $jumlah_tugas;
-
-
-    // set  stafId
+    // staf id Paramters visivle
     public $stafId;
+    // input Model Livewire
+    public $nama, $noHp, $transportasi, $jumlah_tugas;
+
     // rule validation
     protected function rules()
     {
@@ -31,22 +23,22 @@ class EditStaf extends Component
         ];
     }
 
-
     // mount
     public function mount($stafId)
     {
+        // staf id
         $this->stafId = $stafId;
-        $staf = Staf::find($this->stafId);
+        // find staf
+        $staf = Staf::withTrashed()->find($this->stafId);
         if ($staf) {
             $this->nama = $staf->nama;
             $this->noHp = $staf->no_hp;
             $this->transportasi = $staf->transportasi;
             $this->jumlah_tugas = $staf->qty_task;
         }
-
     }
 
-    // updated
+    // updated Validation
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
@@ -55,10 +47,16 @@ class EditStaf extends Component
     // method edit
     public function edit()
     {
+        // validasi
         $this->validate();
 
-        $staf = Staf::find($this->stafId);
+        // update staf
+        $staf = Staf::withTrashed()->find($this->stafId);
+
         if ($staf) {
+            if ($staf->trashed()) {
+                return to_route('staf')->with('error', "Staf di non-aktifkan!, aktifkan staf terlebih dahulu!");
+            }
             $staf->update([
                 'name' => $this->nama,
                 'no_hp' => $this->noHp,
@@ -66,15 +64,16 @@ class EditStaf extends Component
                 'qty_task' => $this->jumlah_tugas,
             ]);
 
-            session()->flash('message', "Staf $staf->nama updated successfully!");
-            return to_route('staf');
+            return to_route('staf')->with('message', "Staf $this->nama updated successfully!");
         }
     }
 
-    // render
+    /**
+     * Summary of render
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
         return view('livewire.staf.edit-staf');
     }
 }
-

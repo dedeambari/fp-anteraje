@@ -16,6 +16,11 @@
             font-family: Arial;
         }
 
+        .container h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+        }
+
         .table {
             font-family: times-new-roman;
             font-size: 14px;
@@ -30,11 +35,6 @@
 
         tr:nth-child(even) {
             background-color: #f2f2f2;
-        }
-
-        th {
-            background-color: #1f6238e3;
-            color: white;
         }
 
         .footer {

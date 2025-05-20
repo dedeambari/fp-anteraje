@@ -42,8 +42,14 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
+            'driver' => 'sanctum',
+            'provider' => 'stafs',
+            'hash' => false,
+        ],
+
+        'staf' => [
+            'driver' => 'sanctum',
+            'provider' => 'stafs',
             'hash' => false,
         ],
     ],
@@ -71,6 +77,11 @@ return [
             'model' => App\Models\AkunAdmin::class,
         ],
 
+        'stafs' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Staf::class,
+        ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -95,6 +106,13 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'stafs' => [
+            'provider' => 'stafs',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

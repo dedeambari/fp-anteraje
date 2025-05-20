@@ -1,42 +1,54 @@
-<table class="table table-bordered table-striped ">
-    <thead>
-        <tr style="text-align: center;">
-            <th class="col">#</th>
-            <th class="col">Nama</th>
-            <th class="col">Username</th>
-            <th class="col">No Handphone</th>
-            <th class="col">Transportasi</th>
-            <th class="col">Jumlah Tugas</th>
-            <th class="col">Waktu</th>
-            <th class="col">Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($data as $user)
-            <tr>
-                <td class="text-center">{{ $loop->iteration }}</td>
-                <td>{{ $user->nama }}</td>
-                <td>{{ $user->username }}</td>
-                <td>{{ $user->no_hp }}</td>
-                <td>{{ $user->transportasi }}</td>
-                <td>{{ $user->qty_task }}</td>
-                <td>{{ $user->created_at->format('d-m-Y') }}</td>
-                <td>
-                    <span class="fw-normal {{ $user->status_deactive_staf === 1 ? 'text-success' : 'text-danger' }}">
-                        {{ $user->status_deactive_staf === 1 ? 'Active' : 'Inactive' }}
-                    </span>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
+<table id="barang" class="table table-hover align-items-center">
+  <thead>
+    <tr>
+      <th>No resi</th>
+      <th>Nama barang</th>
+      <th>Status Barang</th>
+      <th>Staf pengantar</th>
+      <th>Tarif</th>
+      <th>Status</th>
+      <th>Waktu</th>
+    </tr>
+  </thead>
+  <tbody>
+    @forelse ($data as $dataBarang)
+      <tr>
+        <td>{{ $dataBarang->nomor_resi }}</td>
+        <td>{{ $dataBarang->nama_barang }}</td>
+        <td>{{ $dataBarang->pemrosessan->status_proses ?? '-' }}</td>
+        <td>{{ $dataBarang->pemrosessan->staf->nama ?? '-' }}</td>
+        <td>{{ format_rupiah($dataBarang->total_tarif) ?? 0 }}</td>
+        <td class="text-capitalize">
+          <div class="badge {{ $dataBarang->payment->status == 'sudah_bayar' ? 'bg-success' : 'bg-danger' }}">
+            {{ preg_filter('/[^A-Za-z]/', ' ', $dataBarang->payment->status) ?? '-' }}
+          </div>
+        </td>
+        <td>{{ $dataBarang->created_at->format('d/m/Y') }}</td>
+      </tr>
+    @empty
+      <tr>
+        <td colspan="11" class="text-center">Tidak ada data barang</td>
+      </tr>
+    @endforelse
+    <tr class="table-total">
+      <td colspan="6" class="text-end">Total</td>
+      <td>{{ format_rupiah($data->sum('total_tarif')) ?? 0 }}</td>
+    </tr>
+  </tbody>
 </table>
 
 <style>
-    .text-success {
-        color: rgb(12, 132, 12);
-    }
+  th {
+    text-align: center;
+    vertical-align: middle;
+    background-color: #F6C897FF;
+    font-weight: bold;
+    font-size: 14px;
+    color: #000000;
+  }
 
-    .text-danger {
-        color: red;
-    }
+  .table-total td {
+    background-color: #F6C897FF;
+    font-weight: bold;
+  }
 </style>

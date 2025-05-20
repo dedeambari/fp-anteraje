@@ -34,7 +34,7 @@ class Login extends Component
     // method login
     public function login()
     {
-        $credentials = $this->validate();
+        $this->validate();
         if (auth()->attempt(['username' => $this->username, 'password' => $this->password], $this->remember_me)) {
             $user = AkunAdmin::where(['username' => $this->username])->first();
             auth()->login($user, $this->remember_me);

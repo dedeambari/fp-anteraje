@@ -9,13 +9,7 @@ use Livewire\Component;
 class AddStaf extends Component
 {
     // model name
-    public $nama;
-    // model noHp
-    public $noHp;
-    // model transportasi
-    public $transportasi;
-    // model qty_task
-    public $jumlah_tugas;
+    public $nama, $noHp, $transportasi, $jumlah_tugas;
 
     // rule validation
     protected $rules = [
@@ -34,29 +28,32 @@ class AddStaf extends Component
     // create User
     public function store()
     {
+        // validasi
         $this->validate();
 
-        // buat username berdasarkan name
+        // Create username with name
         $nama = strtolower(trim($this->nama));
         $username = substr_count($nama, ' ') > 0 ? explode(' ', $nama)[0] : $nama;
 
-        // Buat user baru
+        // Create staf
         Staf::create([
             'nama' => $this->nama,
-            'username' => $username ."_". mt_rand(100, 999),
+            'username' => $username . '_' . mt_rand(100, 999),
             'no_hp' => $this->noHp,
             'transportasi' => $this->transportasi,
             'qty_task' => $this->jumlah_tugas,
-            'password' => bcrypt("AnterAje500"),
+            'password' => bcrypt('AnterAje500'),
         ]);
 
-        session()->flash('message', "Staf successfully added: {$this->nama}");
-        // Bersihkan input form setelah berhasil disubmit
+        // Reset Input
         $this->reset();
-        return to_route('staf');
+        return to_route('staf')->with('message', "Staf $this->nama created successfully!");
     }
 
-    // render
+    /**
+     * Summary of render
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
         return view('livewire.staf.add-staf');

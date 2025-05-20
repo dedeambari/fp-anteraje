@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('nama');
             $table->string('username')->unique();
             $table->string('password');
+            $table->rememberToken()->unique();
             $table->timestamps();
             $table->softDeletes();
         });

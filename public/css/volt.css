@@ -1054,9 +1054,9 @@
   --bs-gray: #4B5563;
   --bs-gray-dark: #214360;
   --bs-primary: #214360;
-  --bs-secondary: #fb503b;
+  --bs-secondary: #ef8126;
   --bs-tertiary: #31316A;
-  --bs-success: #10B981;
+  --bs-success: #11ab78;
   --bs-info: #2361ce;
   --bs-warning: #f3c78e;
   --bs-danger: #E11D48;
@@ -3786,15 +3786,22 @@ progress {
 }
 
 .table-light {
-  --bs-table-bg: #9CA3AF;
-  --bs-table-striped-bg: #969da9;
-  --bs-table-striped-color: #214360;
-  --bs-table-active-bg: #9097a3;
-  --bs-table-active-color: #214360;
-  --bs-table-hover-bg: #939aa6;
-  --bs-table-hover-color: #214360;
-  color: #214360;
-  border-color: #9097a3;
+  --bs-table-bg: #ffffff;
+  /* Putih murni */
+  --bs-table-striped-bg: #f9f9f9;
+  /* Hampir putih (sedikit abu-abu) */
+  --bs-table-striped-color: #555555;
+  /* Teks abu-abu gelap */
+  --bs-table-active-bg: #f0f0f0;
+  /* Warna aktif (abu-abu sangat muda) */
+  --bs-table-active-color: #555555;
+  --bs-table-hover-bg: #f5f5f5;
+  /* Warna hover (subtle gray) */
+  --bs-table-hover-color: #555555;
+  color: #000000;
+  /* Teks hitam */
+  border-color: #e0e0e0;
+  /* Border light gray */
 }
 
 .table-dark {
@@ -3923,7 +3930,7 @@ progress {
 }
 
 .form-control::placeholder {
-  color: #4B5563;
+  color: #585f6964;
   opacity: 1;
 }
 
@@ -22861,7 +22868,9 @@ fieldset:disabled .btn {
 .sidebar-inner {
   position: relative;
   overflow-y: hidden;
+  height: 100vh;
 }
+
 
 .sidebar-heading {
   font-size: .75rem;
@@ -23970,8 +23979,8 @@ label {
 }
 
 .btn-secondary:hover {
-  background-color: #fa3a22;
-  border-color: #fa3a22;
+  background-color: #ef8126;
+  border-color: #ef8126;
 }
 
 .btn-tertiary:hover {
@@ -27947,6 +27956,7 @@ label {
 .table-wrapper {
   position: relative;
 }
+
 .table-wrapper .dropdown-menu {
   z-index: 1050;
 }

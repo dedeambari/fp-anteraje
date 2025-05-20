@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->enum('status_proses', ['diproses', 'diantar', 'diterima'])->default('diproses');
             $table->text('catatan')->nullable();
             $table->string('bukti')->nullable();
+            $table->dateTime('estimasi_waktu')->nullable();
             $table->timestamps();
         });
     }

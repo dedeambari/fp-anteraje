@@ -7,17 +7,18 @@ use Livewire\Component;
 
 class EditKategori extends Component
 {
-    public $nama_kategori;
-    public $hitung_berat;
-    public $hitung_volume;
-    public $tarif_per_kg;
-    public $tarif_per_m3;
-    public $tarif_flat;
-    public $biaya_tambahan;
-
-    public $test;
+    // Properties Parameters id
     public $kategoriId;
+    // Properties visible in the view
+    public $nama_kategori,
+    $hitung_berat,
+    $hitung_volume,
+    $tarif_per_kg,
+    $tarif_per_m3,
+    $tarif_flat,
+    $biaya_tambahan;
 
+    // Rules
     protected function rules()
     {
         return [
@@ -31,13 +32,13 @@ class EditKategori extends Component
         ];
     }
 
-
+    // Mount
     public function mount($kategoriId)
     {
         $this->kategoriId = $kategoriId;
         $kategori = KategoriBarang::findOrFail($kategoriId);
 
-        if($kategori) {
+        if ($kategori) {
             $this->nama_kategori = $kategori->nama_kategori;
             $this->hitung_berat = $kategori->hitung_berat;
             $this->hitung_volume = $kategori->hitung_volume;
@@ -47,18 +48,20 @@ class EditKategori extends Component
             $this->biaya_tambahan = $kategori->biaya_tambahan;
         }
     }
-
+    // Validasi
     public function updated($property)
     {
         $this->validateOnly($property);
     }
 
+    // Edit Kategori
     public function edit()
     {
+        // Validasi
         $this->validate();
 
+        // Update Kategori
         $kategori = KategoriBarang::find($this->kategoriId);
-        $biaya_tambahan = $this->biaya_tambahan ?: null;
         $kategori->update([
             'nama_kategori' => $this->nama_kategori,
             'hitung_berat' => $this->hitung_berat,
@@ -66,14 +69,16 @@ class EditKategori extends Component
             'tarif_per_kg' => $this->tarif_per_kg,
             'tarif_per_m3' => $this->tarif_per_m3,
             'tarif_flat' => $this->tarif_flat,
-            'biaya_tambahan' => $biaya_tambahan,
+            'biaya_tambahan' => $this->biaya_tambahan,
         ]);
 
-
-        session()->flash('message', "Kategori $this->nama_kategori berhasil diperbarui.");
-        return to_route('kategori');
+        return to_route('kategori')->with('message', "Kategori $this->nama_kategori berhasil diubah.");
     }
 
+    /**
+     * Summary of render
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
         return view('livewire.kategori-barang.edit-kategori');

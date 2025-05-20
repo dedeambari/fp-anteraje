@@ -1,6 +1,7 @@
 <x-layouts.base>
     @if (in_array(request()->route()->getName(), [
             'dashboard',
+            'profile',
             // Staf
             'staf',
             'staf.add',
@@ -16,16 +17,6 @@
             'barang.add',
             'barang.edit',
             'barang.detail',
-
-            //Pembayaran
-            'pembayaran.sudah-bayar',
-            'pembayaran.belum-bayar',
-
-            // kategori
-            'kategori-all',
-            'kategori-kiloan',
-            'kategori-satuan',
-            'kategori-express',
         ]))
         {{-- Nav --}}
         @include('layouts.nav')
@@ -33,7 +24,6 @@
         @include('layouts.sidenav')
         <main class="content">
             {{-- TopBar --}}
-            @include('layouts.topbar')
             {{ $slot }}
         </main>
     @elseif(in_array(request()->route()->getName(), ['login', 'forgot-password', 'reset-password']))

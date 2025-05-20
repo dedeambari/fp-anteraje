@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->text('deskripsi_barang')->nullable();
             $table->decimal('berat', 8, 2)->nullable();
             $table->decimal('volume', 8, 3)->nullable();
-            $table->dateTime('estimasi_waktu')->nullable();
             $table->string('nomor_resi');
             
             $table->unsignedBigInteger('id_kategori')->nullable();

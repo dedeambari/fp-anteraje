@@ -35,4 +35,10 @@ class Barang extends Model
     {
         return $this->belongsTo(PenerimaBarang::class, 'id_penerima', 'id');
     }
+
+    public function historyProgressBarang()
+    {
+        return $this->hasMany(HistoryProsessBarang::class, 'id_barang', 'id');
+    }
+
 }

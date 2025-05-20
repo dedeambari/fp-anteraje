@@ -86,6 +86,9 @@ d.addEventListener("DOMContentLoaded", function(event) {
 
     [].slice.call(d.querySelectorAll('[data-background]')).map(function(el) {
         el.style.background = 'url(' + el.getAttribute('data-background') + ')';
+        el.style.backgroundSize = '123%';
+        el.style.backgroundRepeat = 'no-repeat';
+        el.style.backgroundPosition = 'center center';
     });
 
     [].slice.call(d.querySelectorAll('[data-background-lg]')).map(function(el) {

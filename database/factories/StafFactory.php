@@ -15,8 +15,8 @@ class StafFactory extends Factory
         return [
             'nama' => $this->faker->name(),
             'username' => $this->faker->unique()->userName(),
-            'no_hp' => $this->faker->phoneNumber(),
-            'password' => Hash::make('password'), // default password
+            'no_hp' => '08' . $this->faker->numberBetween(1000000000, 9999999999),
+            'password' => Hash::make('Staf_313212'),
             'qty_task' => $this->faker->randomNumber(1),
             'profile' => null,
             'transportasi' => $this->faker->randomElement(['motor', 'mobil']),

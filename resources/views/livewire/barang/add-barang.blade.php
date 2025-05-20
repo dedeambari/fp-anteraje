@@ -178,7 +178,7 @@
 
                         <!-- Keterangan -->
                         <div class="mb-3">
-                            <label for="keterangan" class="form-label">Keterangan</label>
+                            <label for="keterangan" class="form-label">Deskripsi</label>
                             <textarea id="keterangan" class="form-control" wire:model.lazy="keterangan"></textarea>
                             @error('keterangan') <small class="text-danger">{{ $message ?? "" }}</small> @enderror
                         </div>

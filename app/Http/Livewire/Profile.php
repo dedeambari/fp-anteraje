@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\AkunAdmin;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -9,39 +10,63 @@ use Livewire\Component;
 
 class Profile extends Component
 {
-    public User $user;
-    public $showSavedAlert = false;
-    public $showDemoNotification = false;
+    public $user;
 
-    public function rules() {
-
-        return [
-            'user.first_name' => 'max:15',
-            'user.last_name' => 'max:20',
-            'user.email' => 'email',
-            'user.gender' => ['required', Rule::in(['Male', 'Female', 'Other'])],
-            'user.address' => 'max:40',
-            'user.number' => 'numeric',
-            'user.city' => 'max:20',
-            'user.ZIP' => 'numeric',
+    public function rules()
+    {
+        $rules = [
+            'user.nama' => 'required|max:15|min:5|regex:/^[a-zA-Z ]+$/u',
+            'user.username' => 'required|max:20|min:5',
         ];
+
+        // Kalau user mengisi salah satu field password, validasi semuanya
+        if ($this->user['old_password'] || $this->user['new_password'] || $this->user['new_password_confirmation']) {
+            $rules['user.old_password'] = 'required|min:5';
+            $rules['user.new_password'] = 'required|min:5|same:user.new_password_confirmation';
+            $rules['user.new_password_confirmation'] = 'required|min:5';
+        }
+
+        return $rules;
     }
 
-    public function mount() { $this->user = auth()->user(); }
+
+    public function mount()
+    {
+        $akun = AkunAdmin::find(auth()->user()->id);
+        $this->user = $akun ?? new AkunAdmin();
+        $this->user->nama = auth()->user()->nama;
+        $this->user->username = auth()->user()->username;
+    }
+
 
     public function save()
     {
-        if(env('IS_DEMO')) {
-            $this->showDemoNotification = true;
-        }
-        else {
         $this->validate();
 
-        $this->user->save();
+        $akun = AkunAdmin::find(auth()->user()->id);
 
-        $this->showSavedAlert = true;
+        $akun->nama = $this->user['nama'];
+        $akun->username = $this->user['username'];
+
+        if (
+            !empty($this->user['old_password']) &&
+            !empty($this->user['new_password']) &&
+            !empty($this->user['new_password_confirmation'])
+        ) {
+            if (!\Hash::check($this->user['old_password'], $akun->password)) {
+                $this->addError('user.old_password', 'Password lama salah.');
+                return;
+            }
+
+            // Simpan password baru
+            $akun->password = bcrypt($this->user['new_password']);
         }
+
+        $akun->save();
+
+        session()->flash('message', 'Profil berhasil diperbarui.');
     }
+
 
     public function render()
     {

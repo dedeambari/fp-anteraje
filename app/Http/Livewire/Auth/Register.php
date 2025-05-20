@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Auth;
 use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class Register extends Component
 {

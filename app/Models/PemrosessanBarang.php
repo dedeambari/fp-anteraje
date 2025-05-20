@@ -21,4 +21,16 @@ class PemrosessanBarang extends Model
     {
         return $this->belongsTo(Staf::class, 'id_staf', 'id');
     }
+
+    protected static function boot()
+{
+    parent::boot();
+
+    static::updating(function ($model) {
+        if ($model->isDirty('status_proses')) {
+            $model->updated_at = now();
+        }
+    });
+}
+
 }
