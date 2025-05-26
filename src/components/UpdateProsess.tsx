@@ -6,8 +6,6 @@ import { RiGalleryFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { useTabStore } from "@/store/useTabsStore";
 import toast from "react-hot-toast";
-import { Keyboard } from "@capacitor/keyboard";
-import type { PluginListenerHandle } from "@capacitor/core";
 
 type FormData = {
 	status_proses: string;
@@ -139,46 +137,21 @@ const UpdateProsess = () => {
 	};
 
 
-	const [handleKeyboard, setHandleKeyboard] = useState(false);
-
-	useEffect(() => {
-		let showSub: PluginListenerHandle;
-		let hideSub: PluginListenerHandle;
-
-		const registerListeners = async () => {
-			showSub = await Keyboard.addListener('keyboardWillShow', () => {
-				setTimeout(() => {
-					setHandleKeyboard(true);
-				}, 100);
-			});
-
-			hideSub = await Keyboard.addListener('keyboardWillHide', () => {
-				setHandleKeyboard(false);
-			});
-		};
-
-		registerListeners();
-
-		return () => {
-			showSub?.remove();
-			hideSub?.remove();
-		};
-	}, []);
-
-
 	return (
-		<dialog id="modal-update-prosess" className="modal modal-bottom sm:modal-middle">
-			<div className={`modal-box px-3 overflow-y-scroll transition-all duration-300 ${handleKeyboard ? 'h-[100vh] pb-36' : 'min-h-max'}`}>
-				<h2 className="card-title mb-4">Update Proses</h2>
-				{messageAlert && (
-					<div role="alert" className="alert alert-error alert-soft flex justify-between">
-						<span>{messageAlert}</span>
-						<button onClick={() => setMessageAlert('')}><BsXCircle size={20} /></button>
-					</div>
-				)}
+		<dialog id="modal-update-prosess" className="modal modal-bottom sm:modal-middle mt-0">
+			<div className={`modal-box h-[100vh] p-0`}>
+				<div className={`sticky top-0 bg-base-100 z-[101] shadow-md p-3`}>
+					<h2 className="card-title mb-4 z-50">Update Proses</h2>
+					{messageAlert && (
+						<div role="alert" className="alert alert-error alert-soft flex justify-between ">
+							<span>{messageAlert}</span>
+							<button onClick={() => setMessageAlert('')}><BsXCircle size={20} /></button>
+						</div>
+					)}
+				</div>
 
 				{/* Form Start */}
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={handleSubmit} className={`px-3 overflow-y-scroll pt-5 pb-10 transition-all duration-300 z-[100]`}>
 
 					{/* Item Info */}
 					<div className="mb-6 bg-base-200 rounded-lg p-3">
@@ -316,6 +289,7 @@ const UpdateProsess = () => {
 						</button>
 					</div>
 				</form>
+
 			</div>
 			<form method="dialog" className="modal-backdrop">
 				<button id="close-modal"></button>
