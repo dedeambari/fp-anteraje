@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AntarAje</string>
+    <string name="title_activity_main">AntarAje</string>
+    <string name="package_name">com.antaraje</string>
+    <string name="custom_url_scheme">com.antaraje</string>
+</resources>
