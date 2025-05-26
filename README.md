@@ -1,22 +1,27 @@
-# 🚀 Antar-Aje
-
+<p align="center">
+  <a href="https://laravel.com" target="_blank">
+   <img 
+    src="https://raw.githubusercontent.com/dedeambari/fp-anteraje/frontend/assets/icon.png" width="400" alt="Laravel Logo">
+  </a>
+</p>
+<hr>
 Aplikasi antar-jemput modern berbasis mobile dan web, dibangun dengan stack ringan tapi powerful: React + Vite + Tailwind CSS + Capacitor. Siap digunakan sebagai PWA atau native app di Android.
 
 ## 🧩 Tech Stack
 
-| Tech                 | Keterangan                                                                 |
-|----------------------|----------------------------------------------------------------------------|
-| React 19             | Library UI modern & deklaratif                                             |
-| Vite 6               | Bundler cepat dengan dukungan native ESM                                  |
-| Tailwind CSS 4       | Utility-first styling, dikombinasi dengan DaisyUI                         |
-| DaisyUI 5            | Komponen Tailwind siap pakai                                               |
-| Capacitor 7          | Platform bridge untuk akses fitur native (Splash Screen, Status Bar, dll) |
-| Zustand              | State management minimalis                                                 |
-| React Router DOM 7   | Routing berbasis komponen                                                  |
-| Axios                | HTTP client untuk komunikasi dengan backend                               |
-| Swiper               | Library carousel responsif dan fleksibel                                  |
-| Framer Motion        | Animasi halus dan modern                                                   |
-| React Hot Toast      | Untuk notifikasi simpel dan stylish                                       |
+| Tech               | Keterangan                                                                |
+| ------------------ | ------------------------------------------------------------------------- |
+| React 19           | Library UI modern & deklaratif                                            |
+| Vite 6             | Bundler cepat dengan dukungan native ESM                                  |
+| Tailwind CSS 4     | Utility-first styling, dikombinasi dengan DaisyUI                         |
+| DaisyUI 5          | Komponen Tailwind siap pakai                                              |
+| Capacitor 7        | Platform bridge untuk akses fitur native (Splash Screen, Status Bar, dll) |
+| Zustand            | State management minimalis                                                |
+| React Router DOM 7 | Routing berbasis komponen                                                 |
+| Axios              | HTTP client untuk komunikasi dengan backend                               |
+| Swiper             | Library carousel responsif dan fleksibel                                  |
+| Framer Motion      | Animasi halus dan modern                                                  |
+| React Hot Toast    | Untuk notifikasi simpel dan stylish                                       |
 
 ## 📦 Instalasi
 
@@ -27,7 +32,7 @@ cd antar-aje
 
 # Install dependencies
 npm install
-````
+```
 
 ## 🧪 Menjalankan Dev Server
 
@@ -51,14 +56,15 @@ npm run preview
 
 ## 📱 Jalankan di Android
 
-Pastikan kamu sudah install Android Studio dan environment sudah siap.
+Running di android.
 
 ```bash
 npx cap sync android
 npx cap open android
+
 ```
 
-## 📂 Struktur Proyek (opsional)
+## 📂 Struktur Proyek
 
 ```
 📦src
@@ -120,22 +126,20 @@ npx cap open android
 
 ## ✨ Fitur Utama (coming soon)
 
-* [x] Splash screen & status bar native
-* [x] Routing modern dengan React Router
-* [x] Komponen UI dengan DaisyUI
-* [x] Toast & animasi yang smooth
-* [ ] Otentikasi & proteksi route
-* [ ] API terhubung dengan Laravel backend
-* [ ] Versi Android siap publish ke Play Store
+- [x] Splash screen & status bar native
+- [x] Routing modern dengan React Router
+- [x] Komponen UI dengan DaisyUI
+- [x] Toast & animasi yang smooth
+- [x] Otentikasi & proteksi route
+- [x] API terhubung dengan Laravel backend
 
 ## 🧠 Catatan Developer
 
-* Gunakan `zustand` untuk state yang butuh persistence/global
-* Semua styling berbasis Tailwind – no custom CSS
-* Gunakan `react-hot-toast` untuk feedback UI user-friendly
-* Struktur folder modular, scalable buat maintain jangka panjang
+- Gunakan `zustand` untuk state yang butuh persistence/global
+- Semua styling berbasis Tailwind – no custom CSS
+- Gunakan `react-hot-toast` untuk feedback UI user-friendly
+- Struktur folder modular, scalable buat maintain jangka panjang
 
 ---
 
-> Dibuat dengan 💻 oleh Tim Antar-Aje. Jangan lupa ngopi dulu biar gak burnout.
-
+> Dibuat dengan 💻 oleh kelompok 12
