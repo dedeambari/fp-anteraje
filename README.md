@@ -1,54 +1,141 @@
-# React + TypeScript + Vite
+# 🚀 Antar-Aje
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplikasi antar-jemput modern berbasis mobile dan web, dibangun dengan stack ringan tapi powerful: React + Vite + Tailwind CSS + Capacitor. Siap digunakan sebagai PWA atau native app di Android.
 
-Currently, two official plugins are available:
+## 🧩 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+| Tech                 | Keterangan                                                                 |
+|----------------------|----------------------------------------------------------------------------|
+| React 19             | Library UI modern & deklaratif                                             |
+| Vite 6               | Bundler cepat dengan dukungan native ESM                                  |
+| Tailwind CSS 4       | Utility-first styling, dikombinasi dengan DaisyUI                         |
+| DaisyUI 5            | Komponen Tailwind siap pakai                                               |
+| Capacitor 7          | Platform bridge untuk akses fitur native (Splash Screen, Status Bar, dll) |
+| Zustand              | State management minimalis                                                 |
+| React Router DOM 7   | Routing berbasis komponen                                                  |
+| Axios                | HTTP client untuk komunikasi dengan backend                               |
+| Swiper               | Library carousel responsif dan fleksibel                                  |
+| Framer Motion        | Animasi halus dan modern                                                   |
+| React Hot Toast      | Untuk notifikasi simpel dan stylish                                       |
 
-## Expanding the ESLint configuration
+## 📦 Instalasi
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+```bash
+# Clone repositori
+git clone git@github.com:username/antar-aje.git
+cd antar-aje
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+# Install dependencies
+npm install
+````
+
+## 🧪 Menjalankan Dev Server
+
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Server akan berjalan di `http://localhost:5173` (atau port lainnya jika bentrok).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🏗️ Build Project
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm run build
 ```
+
+Untuk preview build:
+
+```bash
+npm run preview
+```
+
+## 📱 Jalankan di Android
+
+Pastikan kamu sudah install Android Studio dan environment sudah siap.
+
+```bash
+npx cap sync android
+npx cap open android
+```
+
+## 📂 Struktur Proyek (opsional)
+
+```
+📦src
+ ┣ 📂assets
+ ┃ ┣ 📜logo-placeholder.svg
+ ┃ ┣ 📜react.svg
+ ┃ ┗ 📜transport.png
+ ┣ 📂components
+ ┃ ┣ 📜BuktiPreview.tsx
+ ┃ ┣ 📜Footer.tsx
+ ┃ ┣ 📜Header.tsx
+ ┃ ┣ 📜setupStatusBar.tsx
+ ┃ ┣ 📜SplashScreen.tsx
+ ┃ ┣ 📜Tabs.tsx
+ ┃ ┣ 📜ToastCustom.tsx
+ ┃ ┗ 📜UpdateProsess.tsx
+ ┣ 📂lib
+ ┃ ┗ 📜axios.ts
+ ┣ 📂pages
+ ┃ ┣ 📂auth
+ ┃ ┃ ┣ 📜AuthPage.tsx
+ ┃ ┃ ┣ 📜ForgotPasswordPage.tsx
+ ┃ ┃ ┣ 📜LoginPage.tsx
+ ┃ ┃ ┣ 📜ResetPasswordPage.tsx
+ ┃ ┃ ┗ 📜VerifyOtpPage.tsx
+ ┃ ┗ 📂tabs
+ ┃ ┃ ┣ 📜DetailBarangPage.tsx
+ ┃ ┃ ┣ 📜HomePage.tsx
+ ┃ ┃ ┣ 📜ProfilePage.tsx
+ ┃ ┃ ┣ 📜TabsPage.tsx
+ ┃ ┃ ┗ 📜TaskPage.tsx
+ ┣ 📂store
+ ┃ ┣ 📜useAppBootstrapStore.ts
+ ┃ ┣ 📜useAuthStore.ts
+ ┃ ┣ 📜useForgotPasswordStore.ts
+ ┃ ┣ 📜useHomeStore.ts
+ ┃ ┣ 📜useProfileStore.ts
+ ┃ ┣ 📜useTabsStore.ts
+ ┃ ┗ 📜useTaskStore.ts
+ ┣ 📂types
+ ┃ ┣ 📜index.d.ts
+ ┃ ┗ 📜swiper-css.d.ts
+ ┣ 📂utils
+ ┃ ┗ 📜helper.ts
+ ┣ 📜App.tsx
+ ┣ 📜index.css
+ ┣ 📜main.tsx
+ ┗ 📜vite-env.d.ts
+```
+
+## ⚙️ Script NPM
+
+| Script    | Fungsi                              |
+| --------- | ----------------------------------- |
+| `dev`     | Menjalankan development server      |
+| `build`   | Compile TypeScript dan build Vite   |
+| `preview` | Preview hasil build di local server |
+| `lint`    | Jalankan ESLint untuk cek kode      |
+
+## ✨ Fitur Utama (coming soon)
+
+* [x] Splash screen & status bar native
+* [x] Routing modern dengan React Router
+* [x] Komponen UI dengan DaisyUI
+* [x] Toast & animasi yang smooth
+* [ ] Otentikasi & proteksi route
+* [ ] API terhubung dengan Laravel backend
+* [ ] Versi Android siap publish ke Play Store
+
+## 🧠 Catatan Developer
+
+* Gunakan `zustand` untuk state yang butuh persistence/global
+* Semua styling berbasis Tailwind – no custom CSS
+* Gunakan `react-hot-toast` untuk feedback UI user-friendly
+* Struktur folder modular, scalable buat maintain jangka panjang
+
+---
+
+> Dibuat dengan 💻 oleh Tim Antar-Aje. Jangan lupa ngopi dulu biar gak burnout.
+
