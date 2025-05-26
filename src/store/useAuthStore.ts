@@ -29,7 +29,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 	checkAuth: async (suppressToast = false) => {
 		const token = localStorage.getItem("token");
 		if (token) {
-			axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+			axiosInstance.defaults.headers.common[
+				"Authorization"
+			] = `Bearer ${token}`;
 		}
 		try {
 			const res = await axiosInstance.get<ResponseAuth>("/staf/check-auth");
@@ -54,7 +56,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 			const res = await axiosInstance.post<ResponseAuth>("/staf/login", data);
 			const token = res.data.token;
 
-			axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+			axiosInstance.defaults.headers.common[
+				"Authorization"
+			] = `Bearer ${token}`;
 			localStorage.setItem("token", token);
 
 			set({ authUser: res.data });
@@ -67,15 +71,22 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 	},
 
 	logout: async () => {
+		const logoutPromise = axiosInstance.post("/staf/logout");
+
+		toast.promise(logoutPromise, {
+			loading: "Logging out...",
+			success: "Logged out successfully",
+			error: (err) => err.response?.data?.message || "Logout failed"
+		});
+
 		try {
-			await axiosInstance.post("/staf/logout");
-		} catch (error: any) {
-			toast.error(error.response?.data?.message || "Logout failed");
+			await logoutPromise;
+		} catch (error) {
+			console.error("Error during logout:", error);
 		} finally {
 			localStorage.removeItem("token");
 			delete axiosInstance.defaults.headers.common["Authorization"];
 			set({ authUser: null });
-			toast.success("Logged out successfully");
 		}
 	},
 
@@ -89,7 +100,10 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 			});
 
 			if (res.data?.data) {
-				const updatedAuth = { ...get().authUser, staf: res.data.data } as ResponseAuth;
+				const updatedAuth = {
+					...get().authUser,
+					staf: res.data.data
+				} as ResponseAuth;
 				set({ authUser: updatedAuth });
 				toast.success(res.data.message);
 			}

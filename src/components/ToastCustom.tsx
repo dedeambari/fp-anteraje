@@ -10,7 +10,7 @@ const ToastCustom = ({ message }: ToastCustomProps) => {
     return (
       <div
         className={`${t.visible ? "animate-enter" : "animate-leave"
-          } w-max bg-white shadow-lg rounded-full pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          } w-max bg-white shadow-lg rounded-full pointer-events-auto flex ring-1 ring-gray-300/60 backdrop-blur-sm`}
       >
         <div className="flex-1 p-2 flex items-center gap-3">
           <img src={logo} alt="App Logo" className="w-6 h-6" />
