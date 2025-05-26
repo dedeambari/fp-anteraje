@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: light --default;
+}
+@plugin "daisyui/theme" {
+  name: "mytheme";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+  --color-primary: oklch(43.46% 0.065 254.16);
+	--color-secondary: oklch(73.09% 0.201 54.34);
+}
+
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('/fonts/Inter-VariableFont.ttf') format('truetype');
+  font-display: swap;
+}
+
+
+@theme{
+	--color-primary: #214360;
+	--color-secondary: #ef8126;
+	--default-font-family: 'Inter', sans-serif;
+}
+
+.screen {
+	background: #214360;
+	/* background: linear-gradient(10deg, rgba(33, 67, 96, 1) 0%, #ef8126 100%); */
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+	100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+
+
+@keyframes flip-in-y {
+  0% {
+    transform: perspective(400px) rotateY(90deg);
+    opacity: 0;
+  }
+  40% {
+    transform: perspective(400px) rotateY(-20deg);
+  }
+  60% {
+    transform: perspective(400px) rotateY(10deg);
+    opacity: 1;
+  }
+  80% {
+    transform: perspective(400px) rotateY(-5deg);
+  }
+  100% {
+    transform: perspective(400px) rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+.animate-flip-in-y {
+  animation-name: flip-in-y;
+}

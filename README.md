@@ -1,79 +1,145 @@
-<h1 align="center">
-Kelompok 12
-</h1>
-<ul>
-<li>Dede Ambari : 23416255201024</li>
-<li>muhammad : 23416255201004</li>
-<li>Rakha alfian : 23416255201106</li>
-<li>Muhamad Dandhi Yahzaki : 23416255201127</li>
-<li>Aam abdurahman : 23416255201052</li>
-</ul>
-
-
-<hr>
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <a href="https://laravel.com" target="_blank">
+   <img 
+    src="https://raw.githubusercontent.com/dedeambari/fp-anteraje/frontend/assets/icon.png" width="400" alt="Laravel Logo">
+  </a>
 </p>
+<hr>
+Aplikasi antar-jemput modern berbasis mobile dan web, dibangun dengan stack ringan tapi powerful: React + Vite + Tailwind CSS + Capacitor. Siap digunakan sebagai PWA atau native app di Android.
 
-## About Laravel
+## 🧩 Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Tech               | Keterangan                                                                |
+| ------------------ | ------------------------------------------------------------------------- |
+| React 19           | Library UI modern & deklaratif                                            |
+| Vite 6             | Bundler cepat dengan dukungan native ESM                                  |
+| Tailwind CSS 4     | Utility-first styling, dikombinasi dengan DaisyUI                         |
+| DaisyUI 5          | Komponen Tailwind siap pakai                                              |
+| Capacitor 7        | Platform bridge untuk akses fitur native (Splash Screen, Status Bar, dll) |
+| Zustand            | State management minimalis                                                |
+| React Router DOM 7 | Routing berbasis komponen                                                 |
+| Axios              | HTTP client untuk komunikasi dengan backend                               |
+| Swiper             | Library carousel responsif dan fleksibel                                  |
+| Framer Motion      | Animasi halus dan modern                                                  |
+| React Hot Toast    | Untuk notifikasi simpel dan stylish                                       |
 
--   [Simple, fast routing engine](https://laravel.com/docs/routing).
--   [Powerful dependency injection container](https://laravel.com/docs/container).
--   Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
--   Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
--   Database agnostic [schema migrations](https://laravel.com/docs/migrations).
--   [Robust background job processing](https://laravel.com/docs/queues).
--   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📦 Instalasi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```bash
+# Clone repositori
+git clone git@github.com:username/antar-aje.git
+cd antar-aje
 
-## Learning Laravel
+# Install dependencies
+npm install
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🧪 Menjalankan Dev Server
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+npm run dev
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Server akan berjalan di `http://localhost:5173` (atau port lainnya jika bentrok).
 
-## Laravel Sponsors
+## 🏗️ Build Project
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+npm run build
+```
 
-### Premium Partners
+Untuk preview build:
 
--   **[Vehikl](https://vehikl.com/)**
--   **[Tighten Co.](https://tighten.co)**
--   **[WebReinvent](https://webreinvent.com/)**
--   **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
--   **[64 Robots](https://64robots.com)**
--   **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
--   **[Cyber-Duck](https://cyber-duck.co.uk)**
--   **[DevSquad](https://devsquad.com/hire-laravel-developers)**
--   **[Jump24](https://jump24.co.uk)**
--   **[Redberry](https://redberry.international/laravel/)**
--   **[Active Logic](https://activelogic.com)**
--   **[byte5](https://byte5.de)**
--   **[OP.GG](https://op.gg)**
+```bash
+npm run preview
+```
 
-## Contributing
+## 📱 Jalankan di Android
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Running di android.
 
-## Code of Conduct
+```bash
+npx cap sync android
+npx cap open android
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
 
-## Security Vulnerabilities
+## 📂 Struktur Proyek
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
+📦src
+ ┣ 📂assets
+ ┃ ┣ 📜logo-placeholder.svg
+ ┃ ┣ 📜react.svg
+ ┃ ┗ 📜transport.png
+ ┣ 📂components
+ ┃ ┣ 📜BuktiPreview.tsx
+ ┃ ┣ 📜Footer.tsx
+ ┃ ┣ 📜Header.tsx
+ ┃ ┣ 📜setupStatusBar.tsx
+ ┃ ┣ 📜SplashScreen.tsx
+ ┃ ┣ 📜Tabs.tsx
+ ┃ ┣ 📜ToastCustom.tsx
+ ┃ ┗ 📜UpdateProsess.tsx
+ ┣ 📂lib
+ ┃ ┗ 📜axios.ts
+ ┣ 📂pages
+ ┃ ┣ 📂auth
+ ┃ ┃ ┣ 📜AuthPage.tsx
+ ┃ ┃ ┣ 📜ForgotPasswordPage.tsx
+ ┃ ┃ ┣ 📜LoginPage.tsx
+ ┃ ┃ ┣ 📜ResetPasswordPage.tsx
+ ┃ ┃ ┗ 📜VerifyOtpPage.tsx
+ ┃ ┗ 📂tabs
+ ┃ ┃ ┣ 📜DetailBarangPage.tsx
+ ┃ ┃ ┣ 📜HomePage.tsx
+ ┃ ┃ ┣ 📜ProfilePage.tsx
+ ┃ ┃ ┣ 📜TabsPage.tsx
+ ┃ ┃ ┗ 📜TaskPage.tsx
+ ┣ 📂store
+ ┃ ┣ 📜useAppBootstrapStore.ts
+ ┃ ┣ 📜useAuthStore.ts
+ ┃ ┣ 📜useForgotPasswordStore.ts
+ ┃ ┣ 📜useHomeStore.ts
+ ┃ ┣ 📜useProfileStore.ts
+ ┃ ┣ 📜useTabsStore.ts
+ ┃ ┗ 📜useTaskStore.ts
+ ┣ 📂types
+ ┃ ┣ 📜index.d.ts
+ ┃ ┗ 📜swiper-css.d.ts
+ ┣ 📂utils
+ ┃ ┗ 📜helper.ts
+ ┣ 📜App.tsx
+ ┣ 📜index.css
+ ┣ 📜main.tsx
+ ┗ 📜vite-env.d.ts
+```
 
-## License
+## ⚙️ Script NPM
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Script    | Fungsi                              |
+| --------- | ----------------------------------- |
+| `dev`     | Menjalankan development server      |
+| `build`   | Compile TypeScript dan build Vite   |
+| `preview` | Preview hasil build di local server |
+| `lint`    | Jalankan ESLint untuk cek kode      |
+
+## ✨ Fitur Utama (coming soon)
+
+- [x] Splash screen & status bar native
+- [x] Routing modern dengan React Router
+- [x] Komponen UI dengan DaisyUI
+- [x] Toast & animasi yang smooth
+- [x] Otentikasi & proteksi route
+- [x] API terhubung dengan Laravel backend
+
+## 🧠 Catatan Developer
+
+- Gunakan `zustand` untuk state yang butuh persistence/global
+- Semua styling berbasis Tailwind – no custom CSS
+- Gunakan `react-hot-toast` untuk feedback UI user-friendly
+- Struktur folder modular, scalable buat maintain jangka panjang
+
+---
+
+> Dibuat dengan 💻 oleh kelompok 12
