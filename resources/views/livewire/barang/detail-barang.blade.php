@@ -415,7 +415,6 @@
         }
 
         $(document).ready(function() {
-          console.log("Livewire ", Livewire)
           Livewire.on('closeModal', () => {
             $('#editModal').modal('hide')
           })

@@ -231,4 +231,6 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
+    'password_default' => env('PASSWORD_DEFAULT', 'Password_123'),
+
 ];

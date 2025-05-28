@@ -11,6 +11,12 @@ class AddStaf extends Component
     // model name
     public $nama, $noHp, $transportasi, $jumlah_tugas;
 
+    public $password_default;
+
+    public function mount(){
+        $this->password_default = config('app.password_default');
+    }
+
     // rule validation
     protected $rules = [
         'nama' => 'required|string|max:255|regex:/^[A-Za-z\s]+$/',
@@ -42,7 +48,7 @@ class AddStaf extends Component
             'no_hp' => $this->noHp,
             'transportasi' => $this->transportasi,
             'qty_task' => $this->jumlah_tugas,
-            'password' => bcrypt('AnterAje500'),
+            'password' => bcrypt($this->password_default),
         ]);
 
         // Reset Input
