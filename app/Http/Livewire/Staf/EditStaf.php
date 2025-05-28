@@ -57,13 +57,13 @@ class EditStaf extends Component
             if ($staf->trashed()) {
                 return to_route('staf')->with('error', "Staf di non-aktifkan!, aktifkan staf terlebih dahulu!");
             }
-            $staf->update([
-                'name' => $this->nama,
-                'no_hp' => $this->noHp,
-                'transportasi' => $this->transportasi,
-                'qty_task' => $this->jumlah_tugas,
-            ]);
-
+            
+            $staf->nama = $this->nama;
+            $staf->no_hp = $this->noHp;
+            $staf->transportasi = $this->transportasi;
+            $staf->qty_task = $this->jumlah_tugas;
+            $staf->save();
+            
             return to_route('staf')->with('message', "Staf $this->nama updated successfully!");
         }
     }

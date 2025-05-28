@@ -167,7 +167,7 @@
               <div class="d-flex align-items-center">
                 <img src='{{ Storage::url($data->profile) }}' class="avatar rounded-circle me-3" alt="Avatar"
                   style="object-fit: cover">
-                <div class="d-block text-truncate" style="max-width: 200px;">
+                <div class="d-block text-truncate" style="width: 200px;">
                   <span class="fw-bold">{{ $data->nama }}</span>
                 </div>
               </div>
