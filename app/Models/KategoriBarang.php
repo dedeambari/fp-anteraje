@@ -20,22 +20,25 @@ class KategoriBarang extends Model
 
     public function hitungTarif($volume, $berat)
     {
+        $total = 0;
+
+        if ($this->hitung_volume && !is_null($this->tarif_per_m3)) {
+            $total += $this->tarif_per_m3 * $volume;
+        }
+
+        if ($this->hitung_berat && !is_null($this->tarif_per_kg)) {
+            $total += $this->tarif_per_kg * $berat;
+        }
+
         if (!is_null($this->tarif_flat)) {
-            return $this->tarif_flat + ($this->biaya_tambahan ?? 0);
+            $total += $this->tarif_flat;
         }
 
-        if ($this->hitung_volume) {
-            return ($this->tarif_per_m3 ?? 0) * $volume + ($this->biaya_tambahan ?? 0);
+        if (!is_null($this->biaya_tambahan)) {
+            $total += $this->biaya_tambahan;
         }
 
-        if ($this->hitung_berat) {
-            return ($this->tarif_per_kg ?? 0) * $berat + ($this->biaya_tambahan ?? 0);
-        }
-
-        return 0;
+        return $total;
     }
-
-
-
 
 }

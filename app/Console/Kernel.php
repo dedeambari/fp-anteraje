@@ -29,8 +29,8 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             \App\Models\Staf::query()->update([
                 'qty_task' => DB::raw("CASE 
-                WHEN transportasi = 'mobil' THEN 10 
-                WHEN transportasi = 'motor' THEN 5 
+                WHEN transportasi = 'motor' AND qty_task < 5 THEN 5
+                WHEN transportasi = 'mobil' AND qty_task < 10 THEN 10
                 ELSE qty_task
             END")
             ]);

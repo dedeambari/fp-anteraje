@@ -447,6 +447,21 @@
       })
       $('#copyResiBtn').click(function() {
         var resi = $('#nomorResi').text();
+        const notyf = new Notyf({
+          position: {
+            x: 'right',
+            y: 'top',
+          },
+          types: [{
+            type: 'success',
+            icon: {
+              className: 'fas fa-check',
+              tagName: 'span',
+              color: '#fff'
+            },
+            dismissible: false
+          }]
+        });
 
         // Buat elemen input sementara untuk copy
         var $temp = $('<input>');
@@ -456,12 +471,21 @@
         try {
           var successful = document.execCommand('copy');
           if (successful) {
-            alert('Nomor resi berhasil disalin!');
+            notyf.open({
+              type: 'success',
+              message: 'Nomor resi berhasil disalin.'
+            });
           } else {
-            alert('Gagal menyalin nomor resi.');
+            notyf.open({
+              type: 'error',
+              message: 'Nomor resi gagal disalin.'
+            });
           }
         } catch (err) {
-          alert('Browser Anda tidak mendukung fitur ini.');
+          notyf.open({
+            type: 'error',
+            message: 'Nomor resi gagal disalin.'
+          });
         }
 
         $temp.remove();

@@ -26,6 +26,7 @@ class Staf extends Component
         'deletedStaf',
         'filterStatus',
         'filterByDateRange',
+        'cekStatusOtp',
         'generateResetOtp'
     ];
 
@@ -62,7 +63,7 @@ class Staf extends Component
     // delete permanen staf
     public function deletedStaf($stafId)
     {
-        $staf = \App\Models\Staf::with(['pemrosesanBarangs'])->withTrashed()->find($stafId);
+        $staf = \App\Models\Staf::with(['pemrosessan'])->withTrashed()->find($stafId);
 
         if (!$staf) {
             session()->flash('error', 'Staf tidak ditemukan!');
@@ -70,7 +71,7 @@ class Staf extends Component
         }
 
         // Cek jika masih ada proses yang belum "diterima"
-        $masihBerlangsung = $staf->pemrosesanBarangs->contains(fn($item) => $item->status_proses !== 'diterima');
+        $masihBerlangsung = $staf->pemrosessan->contains(fn($item) => $item->status_proses !== 'diterima');
 
         if ($masihBerlangsung) {
             session()->flash('error', 'Staf tidak bisa dihapus karena masih ada proses barang yang belum selesai.');
@@ -78,7 +79,7 @@ class Staf extends Component
         }
 
         // Hapus semua pemrosesan barang jika sudah selesai
-        $staf->pemrosesanBarangs->each->delete();
+        $staf->pemrosessan->each->delete();
 
         // Hapus staf secara permanen
         $staf->forceDelete();
@@ -123,11 +124,32 @@ class Staf extends Component
         }
 
         return $staf->through(function ($staf) {
-            $staf->profile = $staf->profile ??= "default.jpeg";
+            $staf->profile = $staf->profile ? $staf->profile : "img/users/default.jpeg";
             $staf->created_at_human = $staf->created_at->diffForHumans();
             $staf->status_deactive_staf = $staf->deleted_at === null ? 1 : 0;
             return $staf;
         });
+    }
+
+    // cek status otp
+    public function cekStatusOtp($id)
+    {
+        $staf = \App\Models\Staf::findOrFail($id);
+
+        // Kalau masih valid, langsung kasih ke frontend
+        if ($staf->reset_otp && $staf->reset_otp_expired_at && now()->lessThan($staf->reset_otp_expired_at)) {
+            $this->emit("valueOtp", [
+                "id" => $staf->id,
+                "otp" => $staf->reset_otp,
+                'expired_at' => Carbon::parse($staf->reset_otp_expired_at)->toIso8601String(),
+                'nama' => $staf->nama,
+                'isValid' => true
+            ]);
+            return;
+        }
+
+        // Kalau expired / null → minta izin user dulu generate
+        $this->emit("otpPerluGenerate", $staf->id);
     }
 
     // generate reset otp
@@ -135,24 +157,12 @@ class Staf extends Component
     {
         $staf = \App\Models\Staf::findOrFail($id);
 
-        // Cek apakah ada OTP dan masih aktif
-        if ($staf->reset_otp && $staf->reset_otp_expired_at && now()->lessThan($staf->reset_otp_expired_at)) {
-            session()->flash('message', 'OTP masih aktif. Silakan gunakan OTP yang sudah ada.');
-            $this->emit("valueOtp", [
-                "id" => $staf->id,
-                "otp" => $staf->reset_otp,
-                'expired_at' => Carbon::parse($staf->reset_otp_expired_at)->toIso8601String(),
-                'nama' => $staf->nama
-            ]);
-            return;
-        }
-
-        // Buat OTP baru
         $otp = random_int(100000, 999999);
+        $expiredAt = now()->addMinutes(10);
 
         $staf->update([
             'reset_otp' => $otp,
-            'reset_otp_expired_at' => now()->addMinutes(10),
+            'reset_otp_expired_at' => $expiredAt,
         ]);
 
         session()->flash('message', 'OTP berhasil dibuat dan berlaku 10 menit.');
@@ -160,10 +170,12 @@ class Staf extends Component
         $this->emit("valueOtp", [
             "id" => $staf->id,
             "otp" => $otp,
-            'expired_at' => Carbon::now()->addMinutes(10)->toIso8601String(),
-            'nama' => $staf->nama
+            'expired_at' => $expiredAt->toIso8601String(),
+            'nama' => $staf->nama,
+            'isValid' => true
         ]);
     }
+
 
 
     // render

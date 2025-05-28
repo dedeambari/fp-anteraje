@@ -115,6 +115,11 @@ class StafAuthController extends Controller
         ], 200);
     }
 
+    /**
+     * Summary of forgotPasswordReset
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function forgotPasswordReset(Request $request)
     {
         // Validasi
@@ -122,6 +127,7 @@ class StafAuthController extends Controller
             'username' => 'required|string',
             'otp' => 'required|string',
             'new_password' => 'required|string|min:8|max:255',
+            'new_password_confirmation' => 'required|string|min:8|max:255|same:new_password',
         ]);
 
         // Cek OTP

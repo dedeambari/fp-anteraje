@@ -21,7 +21,8 @@ class AddBarang extends Component
     public $currentPage = 1;
 
     // visible wire variable input
-    public $namaBarang, $volumeBarang, $beratBarang, $type_kategori, $namaPengirim, $alamatPengirim, $noHpPengirim, $namaPenerima, $alamatPenerima, $stafPengantaran, $noHpPenerima, $estimasiPengantaran, $keterangan, $pembayaranYangBayar, $statusBayaran;
+    public $namaBarang, $volumeBarang, $beratBarang, $type_kategori, $namaPengirim, $alamatPengirim, $noHpPengirim, $namaPenerima, $alamatPenerima, $stafPengantaran, $noHpPenerima, $estimasiPengantaran, $keterangan, $pembayaranYangBayar;
+    public $statusBayaran = 'belum_bayar';
 
     // kategori barang
     public $kategoriTerpilih;

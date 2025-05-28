@@ -165,8 +165,8 @@
             </td>
             <td>
               <div class="d-flex align-items-center">
-                <img src='{{ Storage::url("img/users/$data->profile") }}' class="avatar rounded-circle me-3"
-                  alt="Avatar" style="object-fit: cover">
+                <img src='{{ Storage::url($data->profile) }}' class="avatar rounded-circle me-3" alt="Avatar"
+                  style="object-fit: cover">
                 <div class="d-block text-truncate" style="max-width: 200px;">
                   <span class="fw-bold">{{ $data->nama }}</span>
                 </div>
@@ -233,7 +233,7 @@
       </tbody>
     </table>
   </div>
-    {{ $staf->links('vendor.pagination.bootstrap-5') }}
+  {{ $staf->links('vendor.pagination.bootstrap-5') }}
 
   <div class="modal fade" id="modal-generate-otp" tabindex="-1" aria-labelledby="OtpLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -334,23 +334,62 @@
         // Gunakan event delegation untuk menangani klik pada tombol generate otp
         $(document).on('click', '.generate-otp', function() {
           const stafId = $(this).data('stafid');
+          Livewire.emit('cekStatusOtp', stafId);
+        });
+
+
+        Livewire.on('otpPerluGenerate', (id) => {
           Swal.fire({
-            title: 'yakin ingin generate otp staf ini?',
-            icon: 'info',
+            title: 'OTP tidak ditemukan atau sudah expired',
+            text: 'Ingin generate OTP baru?',
+            icon: 'warning',
             showCancelButton: true,
+            confirmButtonText: 'Ya, generate!',
+            cancelButtonText: 'Batal',
             customClass: {
               confirmButton: 'btn btn-danger',
               cancelButton: 'btn btn-secondary'
-            },
-            confirmButtonText: 'Generate Otp'
+            }
           }).then((result) => {
             if (result.isConfirmed) {
-              Livewire.emit('generateResetOtp', stafId);
+              Livewire.emit('generateResetOtp', id);
             }
           });
         });
 
+        // TIMER
+        let otpCountdownTimer = null;
         Livewire.on('valueOtp', (data) => {
+          if (!data.isValid || !data.otp) {
+            $('#modal-generate-otp').modal('hide');
+            const notyf = new Notyf({
+              position: {
+                x: 'right',
+                y: 'top'
+              },
+              types: [{
+                type: 'error',
+                icon: {
+                  className: 'fas fa-times',
+                  tagName: 'span',
+                  color: '#fff'
+                },
+                dismissible: false
+              }]
+            });
+            notyf.open({
+              type: 'error',
+              message: "OTP sudah tidak berlaku atau sudah digunakan."
+            });
+            return;
+          }
+
+          // CLEAR TIMER
+          if (otpCountdownTimer) {
+            clearInterval(otpCountdownTimer);
+            otpCountdownTimer = null;
+          }
+
           $('#modal-generate-otp').modal('show');
           $('#otp').val(data.otp);
           $('#otp-label').text('Kode OTP ' + data.nama);
@@ -364,7 +403,8 @@
 
             if (diffMs <= 0) {
               infoElement.innerText = "Kode OTP sudah expired silakan generate ulang.";
-              clearInterval(timer);
+              clearInterval(otpCountdownTimer);
+              otpCountdownTimer = null;
               return;
             }
 
@@ -374,8 +414,8 @@
             infoElement.innerText = `Kode OTP expired dalam ${minutes} menit ${seconds} detik`;
           }
 
-          updateCountdown(); // pertama kali
-          const timer = setInterval(updateCountdown, 1000);
+          updateCountdown();
+          otpCountdownTimer = setInterval(updateCountdown, 1000);
         });
 
 

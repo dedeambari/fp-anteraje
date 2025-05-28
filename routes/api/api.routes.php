@@ -46,6 +46,7 @@ Route::prefix('staf')->middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [StafProfileController::class, 'index'])
         ->name('api.staf.profile');
     Route::put('/profile/update', [StafProfileController::class, 'updateProfile'])
-        ->name('api.staf.profile.update');
+        ->name('api.staf.profile.update')
+        ->middleware("throttle:5,1");
 
 });

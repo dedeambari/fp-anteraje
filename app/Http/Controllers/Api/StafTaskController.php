@@ -138,12 +138,21 @@ class StafTaskController extends Controller
 
     public function updateProsessBarang(Request $request)
     {
+        $request->merge([
+            "id_barang" => intval($request->id_barang),
+        ]);
         // Validasi
         $request->validate([
-            'id_barang' => ['required', 'integer'],
+            'id_barang' => ['required', 'numeric'],
             'status_prosess' => ['required', 'string', 'in:diproses,diantar,diterima'],
             'catatan' => ['nullable', 'string', 'max:500', 'regex:/^[A-Za-z0-9\s.,?!]+$/'],
-            'bukti' => ['nullable', 'image', 'max:2048', 'mimetypes:image/jpeg,image/png,image/jpg,image/webp', 'required_if:status_prosess,diterima'],
+            'bukti' => [
+                'nullable',
+                'image',
+                'max:5120',
+                'mimetypes:image/jpeg,image/png,image/jpg,image/webp,image/heic,image/avif',
+                'required_if:status_prosess,diterima'
+            ],
         ]);
 
         $id = $request->id_barang;

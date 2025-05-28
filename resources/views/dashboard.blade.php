@@ -72,7 +72,7 @@
                 <i class="bi bi-wallet2 fs-2"></i>
               </div>
               <div class="d-sm-none">
-                <h2 class="h5">Payments</h2>
+                <h2 class="h5">Payments Unpaid</h2>
                 <h3 class="fw-extrabold mb-1">{{ $totalYetPaid }}</h3>
               </div>
             </div>
@@ -101,7 +101,7 @@
                 <i class="bi bi-wallet-fill fs-2"></i>
               </div>
               <div class="d-sm-none">
-                <h2 class="h5">Payments</h2>
+                <h2 class="h5">Payments Paid</h2>
                 <h3 class="fw-extrabold mb-1">{{ $totalPaid }}</h3>
               </div>
             </div>
@@ -150,12 +150,38 @@
           </div>
 
         </div>
-        <div class="card-body ">
-          <div id="sales-chart" class="ct-chart-sales-value ct-double-octave ct-series-g"></div>
+        <div class="card-body h-100">
+          <div class="chart-wrapper">
+            <div id="sales-chart" class="ct-chart-sales-value ct-double-octave ct-series-g"></div>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
+  <style>
+    .chart-wrapper {
+      overflow-x: auto;
+    }
+
+    #sales-chart {
+      height: 300px;
+      min-width: 600px;
+    }
+
+    @media (max-width: 768px) {
+      #sales-chart {
+        height: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #sales-chart {
+        height: 200px;
+      }
+    }
+  </style>
+
 </div>
 
 @push('scripts')

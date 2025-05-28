@@ -43,7 +43,12 @@ class StafProfileController extends Controller
                 Rule::unique('stafs', 'no_hp')->ignore($staf->id),
             ],
             'transportasi' => ['required', 'string', 'max:255', 'in:motor,mobil'],
-            'profile' => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
+            'profile' => [
+                'nullable',
+                'image',
+                'mimetypes:image/jpeg,image/png,image/jpg,image/webp,image/heic,image/avif',
+                'max:5120'
+            ],
             'old_password' => ['nullable', 'min:8'],
             'new_password' => ['nullable', 'min:8', 'confirmed'],
         ]);
@@ -54,7 +59,6 @@ class StafProfileController extends Controller
         $staf->transportasi = $validated['transportasi'];
 
         // Handle upload file jika ada
-
         if ($request->hasFile('profile')) {
             // Hapus file lama kalau ada
             if ($staf->profile && Storage::disk('public')->exists($staf->profile)) {

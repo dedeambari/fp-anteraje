@@ -70,6 +70,9 @@ class BarangExportController extends Controller
                 $durasi = "{$weeks} minggu";
             } else {
                 $months = $start->diffInMonths($end);
+                if ($months === 0 && $totalDays >= 30) {
+                    $months = 1;
+                }
                 $durasi = "{$months} bulan";
             }
             $title = "Report Barang ({$dateFrom} - {$dateTo}) $durasi";
