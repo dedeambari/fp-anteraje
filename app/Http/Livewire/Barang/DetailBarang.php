@@ -188,6 +188,9 @@ class DetailBarang extends Component
             $this->getValidationAttributes('barang'),
         );
 
+        // Hitung Tarif
+        $this->barang['total_tarif'] = $this->kategoriTerpilih->hitungTarif($this->barang['volume'], $this->barang['berat']);
+
         $this->detailBarang->update($this->barang);
         $this->detailBarang->save();
         session()->flash('message', 'Barang berhasil diubah.');

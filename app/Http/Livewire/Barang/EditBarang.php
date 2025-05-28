@@ -150,8 +150,12 @@ class EditBarang extends Component
     {
         try {
             $this->validate($this->rulesMap());
-
+            
             // 1. Update Barang
+
+            // Hitung Tarif
+
+
             $this->dataBarang->update([
                 'nama_barang' => $this->nama_barang,
                 'id_kategori' => $this->id_kategori,
@@ -159,6 +163,7 @@ class EditBarang extends Component
                 'volume' => $this->volume,
                 'deskripsi_barang' => $this->deskripsi_barang,
                 'id_staf' => $this->id_staf,
+                'total_tarif' => $this->kategoriTerpilih->hitungTarif($this->volume, $this->berat),
             ]);
 
             // 2. Update Pemrosessan (Pengiriman)

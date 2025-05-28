@@ -169,11 +169,12 @@ class AddBarang extends Component
             'status' => $this->statusBayaran,
         ]);
 
-        // flash mesage
-        session()->flash('message', "Barang $this->namaBarang created successfully!");
-
         // reset
         $this->reset();
+
+
+        // flash mesage
+        session()->flash('message', "Barang $this->namaBarang created successfully!");
 
         return to_route('barang');
     }
