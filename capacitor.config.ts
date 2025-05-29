@@ -11,10 +11,10 @@ const config: CapacitorConfig = {
 			resizeOnFullScreen: true
 		}
 	},
-	server: {
-		url: "http://192.168.117.15:5173",
-		cleartext: true
-	}
+	// server: {
+	// 	url: "http://192.168.117.15:5173",
+	// 	cleartext: true
+	// }
 };
 
 export default config;

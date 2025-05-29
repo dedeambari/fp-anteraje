@@ -9,7 +9,7 @@ const AuthPage = ({ typeAuth }: { typeAuth: string }) => {
 
 
 	return (
-		<div className="min-h-screen screen flex flex-col items-center justify-start px-3 pt-16">
+		<div className="min-h-screen screen flex flex-col items-center justify-start px-3 pt-16 relative">
 
 			{/* Main Content */}
 			<div className="w-full max-w-md">

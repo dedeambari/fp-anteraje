@@ -11,10 +11,12 @@ type TaskState = {
 	isLoadingDetailBarang?: number | null;
 	isLoadingUpdateProsess?: boolean;
 	selectedBarang?: DataItem | null;
-	setSelectedBarang: (barang: DataItem) => void;
+	setSelectedBarang: (barang: DataItem | null) => void;
 	fetchTask: () => Promise<void>;
 	fetchDetailBarang?: (id_barang: number) => Promise<void>;
 	updateProsess: (formData: FormData) => Promise<AxiosResponse>;
+	swipteModal: boolean;
+	setSwipteModal: (value: boolean) => void;
 };
 
 export const useTaskStore = create<TaskState>((set, get) => ({
@@ -22,6 +24,8 @@ export const useTaskStore = create<TaskState>((set, get) => ({
 	loading: false,
 	selectedBarang: null,
 	setSelectedBarang: (barang) => set({ selectedBarang: barang }),
+	swipteModal: false,
+	setSwipteModal: (value) => set({ swipteModal: value }),
 
 	fetchTask: async () => {
 		set({ loading: true });

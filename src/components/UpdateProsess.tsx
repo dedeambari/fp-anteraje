@@ -60,6 +60,20 @@ const UpdateProsess = () => {
 		setMessageAlert('');
 	};
 
+	const isEqualFormData = (form: typeof formData, selected: typeof selectedBarang) => {
+		const normalize = (val: any) => (val == null ? "" : val);
+		return (
+			normalize(form.status_proses) === normalize(selected?.status_proses) &&
+			normalize(form.catatan) === normalize(selected?.catatan) &&
+			normalize(form.nomor_resi) === normalize(selected?.nomor_resi) &&
+			(
+				(typeof form.bukti === "string" && normalize(form.bukti) === normalize(selected?.bukti)) ||
+				(form.bukti instanceof File)
+			)
+		);
+	};
+
+
 	// Handle Submit
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -68,13 +82,7 @@ const UpdateProsess = () => {
 		setMessageAlert("");
 
 		// Cek apakah ada perubahan
-		const isSame =
-			formData.status_proses === selectedBarang?.status_proses &&
-			formData.catatan === selectedBarang?.catatan &&
-			formData.nomor_resi === selectedBarang?.nomor_resi &&
-			(formData.bukti === selectedBarang?.bukti || typeof formData.bukti === "string");
-
-		if (isSame) {
+		if (isEqualFormData(formData, selectedBarang)) {
 			setMessageAlert("Tidak ada perubahan yang dilakukan.");
 			return;
 		}

@@ -21,7 +21,6 @@ import { BuktiPreview } from "@/components/BuktiPreview";
 import { motion } from "framer-motion"
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import UpdateProsess from "@/components/UpdateProsess";
 
 const DetailBarangPage = () => {
 	const {
@@ -150,14 +149,18 @@ const DetailBarangPage = () => {
 								<p className="text-gray-500">Kategori:</p>
 								<p>{kategori.nama_kategori}</p>
 							</div>
-							<div>
-								<p className="text-gray-500">Berat:</p>
-								<p>{barang.berat} kg</p>
-							</div>
-							<div>
-								<p className="text-gray-500">Volume:</p>
-								<p>{barang.volume} m³</p>
-							</div>
+							{barang.berat && (
+								<div>
+									<p className="text-gray-500">Berat:</p>
+									<p>{barang.berat} kg</p>
+								</div>
+							)}
+							{barang.volume && (
+								<div>
+									<p className="text-gray-500">Volume:</p>
+									<p>{barang.volume} m³</p>
+								</div>
+							)}
 						</div>
 					</div>
 				</div>
@@ -291,7 +294,6 @@ const DetailBarangPage = () => {
 				<div className="mt-5 flex gap-2 justify-end">
 					<button className="btn btn-accent" onClick={() => handleUpdateProsess(barang.id)}>Update Prosess</button>
 				</div>
-				<UpdateProsess />
 			</div>
 			<Footer />
 		</motion.div>

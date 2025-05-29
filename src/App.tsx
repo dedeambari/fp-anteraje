@@ -21,18 +21,18 @@ import DetailBarangPage from "@/pages/tabs/DetailBarangPage";
 // Components
 import { setupStatusBar } from "@/components/setupStatusBar";
 import SplashScreen from "@/components/SplashScreen";
+import ToastCustom from "@/components/ToastCustom";
 
 import { Network } from "@capacitor/network";
 import { Keyboard, KeyboardResize } from "@capacitor/keyboard";
-import type { PluginListenerHandle } from "@capacitor/core";
 import { useTabStore } from "@/store/useTabsStore";
-import ToastCustom from "@/components/ToastCustom";
 import { App as CapacitorApp } from "@capacitor/app";
+import type { PluginListenerHandle } from "@capacitor/core";
+import { Capacitor} from "@capacitor/core"
 
 const App = () => {
   // Auth
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-
   // App bootstrap
   const { isBootstrapping, bootstrapApp } = useAppBootstrapStore();
   const [hasBootstrapped, setHasBootstrapped] = useState(false);
@@ -52,6 +52,7 @@ const App = () => {
 
   // Keyboard
   useEffect(() => {
+    if (Capacitor.getPlatform() == 'web') return;
     Keyboard.setScroll({ isDisabled: false });
     Keyboard.setResizeMode({ mode: KeyboardResize.Native });
   }, []);
@@ -95,6 +96,8 @@ const App = () => {
   useEffect(() => {
     let mounted = true;
 
+    if (Capacitor.getPlatform() == 'web') return;
+
     const setupNetwork = async () => {
       const status = await Network.getStatus();
       if (mounted) {
@@ -122,6 +125,7 @@ const App = () => {
 
   // Back button handler
   useEffect(() => {
+    if (Capacitor.getPlatform() == 'web') return;
     // Reset tiap kali kondisi berubah
     tapRef.current = 0;
     if (timeoutRef.current) {
@@ -131,8 +135,12 @@ const App = () => {
 
     // Listener back
     const backAction = () => {
+      // Tutup modal
+      const modal = document.getElementById("modal-update-prosess") as HTMLDialogElement;
+      if (modal !== null) {
+        if (modal.open) modal.close();
+      }
       const currentPath = location.pathname;
-
       // Kalau belum login, listener back untuk auth pages
       if (!authUser) {
         const isOnLoginPage = currentPath === "/login";
@@ -172,8 +180,10 @@ const App = () => {
         navigate("/");
         setActiveTab("home");
       } else {
+        console.log("active tab", activeTab);
         navigate(-1);
       }
+
     };
 
     const setupListener = async () => {

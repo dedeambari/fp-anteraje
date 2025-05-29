@@ -6,7 +6,6 @@ import { BuktiPreview } from "@/components/BuktiPreview"
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 import { useTabStore } from "@/store/useTabsStore"
-import UpdateProsess from "@/components/UpdateProsess"
 
 
 const TaskPage = () => {
@@ -14,7 +13,7 @@ const TaskPage = () => {
 		data: dataTask,
 		isLoadingDetailBarang,
 		fetchDetailBarang,
-		setSelectedBarang
+		setSelectedBarang,
 	} = useTaskStore()
 
 	const { activeTabTask, setActiveTabTask } = useTabStore();
@@ -32,8 +31,6 @@ const TaskPage = () => {
 			toast.error("Gagal menampilkan detail barang " + error.message);
 		}
 	};
-
-
 
 	const handleUpdateProsess = (id_barang: number) => {
 
@@ -125,7 +122,9 @@ const TaskPage = () => {
 									)}
 
 									<div className="border-t border-gray-200 pt-3 w-full flex gap-2 justify-end">
-										<button className="btn btn-accent btn-sm btn-soft" onClick={() => handleUpdateProsess(item.id_barang)}>
+										<button className="btn btn-accent btn-sm btn-soft"
+											onClick={() => handleUpdateProsess(item.id_barang)}
+										>
 											Update Prosess
 										</button>
 
@@ -149,7 +148,6 @@ const TaskPage = () => {
 					)}
 				</ul>
 
-				<UpdateProsess />
 			</div>
 		</div>
 	)

@@ -64,10 +64,10 @@ const ForgotPasswordPage = () => {
 									placeholder="Username"
 									value={username}
 									onChange={(e) => setUsername(e.target.value)}
-									pattern="[A-Za-z][A-Za-z0-9\-]*"
+									pattern="[A-Za-z][A-Za-z0-9\_\-]*"
 									minLength={3}
 									maxLength={30}
-									title="Only letters, numbers or dash"
+									title="Only letters, numbers, underscore or dash allowed"
 								/>
 							</label>
 							<p className="text-xs text-white/60 mt-1">
