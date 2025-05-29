@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
                 ELSE qty_task
             END")
             ]);
-        })->dailyAt('00:01');
+        })->dailyAt('00:01')->appendOutputTo(storage_path('logs/daily-job.log'));
     }
 
     /**
