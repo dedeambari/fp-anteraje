@@ -52,7 +52,7 @@ const App = () => {
 
   // Keyboard
   useEffect(() => {
-    if (Capacitor.getPlatform() == 'web') return;
+    if (Capacitor.getPlatform() == 'web' && 'ios') return;
     Keyboard.setScroll({ isDisabled: false });
     Keyboard.setResizeMode({ mode: KeyboardResize.Native });
   }, []);
