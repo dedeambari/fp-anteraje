@@ -64,7 +64,7 @@ const TabsPage = () => {
                     </span>
                   </div>
                   <div className={`transition-opacity duration-300 `}>
-                    <p className="text-sm opacity-75 text-xs">
+                    <p className="opacity-75 text-xs">
                       <span className="badge badge-sm badge-accent px-1 font-semibold badge-soft font-mono">@{data?.username || "username"}</span>
                     </p>
                   </div>
