@@ -149,8 +149,7 @@ class StafTaskController extends Controller
             'bukti' => [
                 'nullable',
                 'image',
-                'max:5120',
-                'mimetypes:image/jpeg,image/png,image/jpg,image/webp,image/heic,image/avif',
+                'max:10240', //10 Mb
                 'required_if:status_prosess,diterima'
             ],
         ]);

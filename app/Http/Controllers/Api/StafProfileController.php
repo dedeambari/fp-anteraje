@@ -46,8 +46,7 @@ class StafProfileController extends Controller
             'profile' => [
                 'nullable',
                 'image',
-                'mimetypes:image/jpeg,image/png,image/jpg,image/webp,image/heic,image/avif',
-                'max:5120'
+                'max:10240' //10 Mb
             ],
             'old_password' => ['nullable', 'min:8'],
             'new_password' => ['nullable', 'min:8', 'confirmed'],
