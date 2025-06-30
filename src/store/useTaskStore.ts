@@ -77,8 +77,10 @@ export const useTaskStore = create<TaskState>((set, get) => ({
 			}
 
 			// Kembalikan response untuk ditangani di UI
+			console.log(response);
 			return response;
 		} catch (err: any) {
+			console.log(err);
 			throw new Error(err.response.data.message);
 		} finally {
 			set({ isLoadingUpdateProsess: false });

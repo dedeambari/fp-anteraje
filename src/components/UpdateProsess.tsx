@@ -21,6 +21,49 @@ const UpdateProsess = () => {
 
 	const navigate = useNavigate();
 
+	const compressImage = (file: File, maxWidth = 800, quality = 0.7): Promise<File> => {
+		return new Promise((resolve, reject) => {
+			const reader = new FileReader();
+
+			reader.onload = (event) => {
+				const img = new Image();
+				img.src = event.target?.result as string;
+
+				img.onload = () => {
+					const canvas = document.createElement("canvas");
+					const scale = maxWidth / img.width;
+					canvas.width = maxWidth;
+					canvas.height = img.height * scale;
+
+					const ctx = canvas.getContext("2d");
+					ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+					canvas.toBlob(
+						(blob) => {
+							if (blob) {
+								const compressedFile = new File([blob], file.name, {
+									type: "image/jpeg",
+									lastModified: Date.now(),
+								});
+								resolve(compressedFile);
+							} else {
+								reject("Gagal compress gambar");
+							}
+						},
+						"image/jpeg",
+						quality
+					);
+				};
+
+				img.onerror = reject;
+			};
+
+			reader.onerror = reject;
+			reader.readAsDataURL(file);
+		});
+	};
+
+
 	// State form data
 	const [formData, setFormData] = useState<FormData>({
 		status_proses: 'diterima',
@@ -67,8 +110,7 @@ const UpdateProsess = () => {
 			normalize(form.catatan) === normalize(selected?.catatan) &&
 			normalize(form.nomor_resi) === normalize(selected?.nomor_resi) &&
 			(
-				(typeof form.bukti === "string" && normalize(form.bukti) === normalize(selected?.bukti)) ||
-				(form.bukti instanceof File)
+				(typeof form.bukti === "string" && normalize(form.bukti) === normalize(selected?.bukti))
 			)
 		);
 	};
@@ -80,6 +122,7 @@ const UpdateProsess = () => {
 
 		// Reset message alert dulu
 		setMessageAlert("");
+		console.log(formData);
 
 		// Cek apakah ada perubahan
 		if (isEqualFormData(formData, selectedBarang)) {
@@ -212,12 +255,18 @@ const UpdateProsess = () => {
 											const input = document.createElement('input');
 											input.type = 'file';
 											input.accept = 'image/*';
-											input.onchange = (e: Event) => {
+											input.onchange = async (e: Event) => {
 												const target = e.target as HTMLInputElement;
 												const file = target.files?.[0] || null;
 												if (file) {
-													setFormData(prev => ({ ...prev, bukti: file }));
-													setMessageAlert('')
+													try {
+														const compressed = await compressImage(file);
+														setFormData(prev => ({ ...prev, bukti: compressed }));
+														setMessageAlert('');
+													} catch (err) {
+														console.error(err);
+														setMessageAlert('Gagal compress gambar dari galeri.');
+													}
 												}
 											};
 											input.click();
@@ -235,12 +284,18 @@ const UpdateProsess = () => {
 											input.type = 'file';
 											input.accept = 'image/*';
 											input.capture = 'environment';
-											input.onchange = (e: Event) => {
+											input.onchange = async (e: Event) => {
 												const target = e.target as HTMLInputElement;
 												const file = target.files?.[0] || null;
 												if (file) {
-													setFormData(prev => ({ ...prev, bukti: file }));
-													setMessageAlert('')
+													try {
+														const compressed = await compressImage(file);
+														setFormData(prev => ({ ...prev, bukti: compressed }));
+														setMessageAlert('');
+													} catch (err) {
+														console.error(err);
+														setMessageAlert('Gagal compress gambar dari kamera.');
+													}
 												}
 											};
 											input.click();
